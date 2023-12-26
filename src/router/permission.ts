@@ -17,6 +17,7 @@ router.beforeEach(async (to, _from, next) => {
   const userStore = useUserStoreHook()
   const permissionStore = usePermissionStoreHook()
   // 判断该用户是否登录
+  if (to.path.includes('/register')) next()
   if (getToken() && getUsernameToken()) {
     // 每切换一次路由，就会执行一次
     if (to.path === "/login") {
@@ -31,7 +32,7 @@ router.beforeEach(async (to, _from, next) => {
           // 是否开启动态路由
           if (asyncRouteSettings.open) {
             // 注意：角色必须是一个数组！ 例如: ['admin'] 或 ['developer', 'editor']
-            await userStore.getInfo(getUsernameToken() ? getUsernameToken() :userStore.username) //获取当前用户信息
+            await userStore.getInfo(getUsernameToken() ? getUsernameToken() : userStore.username) //获取当前用户信息
             const roles = userStore.roles //拿到当前用户的身份
             console.log("roles", roles)
             // 根据角色生成可访问的 Routes（可访问路由 = 常驻路由 + 有访问权限的动态路由）

@@ -13,7 +13,6 @@ interface ISidebar {
 }
 
 export const useAppStore = defineStore("app", () => {
-  console.log("Desktop", DeviceType.Desktop, DeviceType.Mobile)
   const sidebar: ISidebar = reactive({
     opened: getSidebarStatus() !== "closed",
     withoutAnimation: false
