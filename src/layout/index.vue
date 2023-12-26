@@ -12,15 +12,15 @@
 </template>
 
 <script setup lang="ts">
-import { DeviceType, useAppStore } from '@/store/modules/app'
-import { useSettingsStore } from '@/store/modules/setting'
-import { computed } from 'vue'
-import Siderbar from "./components/Sidebar/index.vue"
-import NavigationBar from './components/NavigationBar/index.vue'
-import AppMain from './components/AppMain.vue'
+import { DeviceType, useAppStore } from "@/store/modules/app";
+import { useSettingsStore } from "@/store/modules/setting";
+import { computed } from "vue";
+import Siderbar from "./components/Sidebar/index.vue";
+import NavigationBar from "./components/NavigationBar/index.vue";
+import AppMain from "./components/AppMain.vue";
 
-const settingsStore = useSettingsStore()
-const appStore = useAppStore()
+const settingsStore = useSettingsStore();
+const appStore = useAppStore();
 
 const classObj = computed(() => {
   return {
@@ -28,22 +28,22 @@ const classObj = computed(() => {
     openSidebar: appStore.sidebar.opened,
     withoutAnimation: appStore.sidebar.withoutAnimation,
     mobile: appStore.device === DeviceType.Mobile,
-  }
-})
+  };
+});
 
 const showSettings = computed(() => {
-  return settingsStore.showSettings
-})
+  return settingsStore.showSettings;
+});
 const showTagsView = computed(() => {
-  return settingsStore.showTagsView
-})
+  return settingsStore.showTagsView;
+});
 const fixedHeader = computed(() => {
-  return settingsStore.fixedHeader
-})
+  return settingsStore.fixedHeader;
+});
 
 const handleClickOutside = () => {
-  appStore.closeSidebar(false)
-}
+  appStore.closeSidebar(false);
+};
 </script>
 
 <style lang="scss" scoped>
@@ -146,9 +146,10 @@ const handleClickOutside = () => {
 }
 
 .withoutAnimation {
-
   .main-container,
   .sidebar-container {
     transition: none;
   }
-}</style>
+}
+</style>
+

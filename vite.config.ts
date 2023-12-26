@@ -3,6 +3,7 @@ import path from 'path-browserify';
 import { createSvgIconsPlugin } from 'vite-plugin-svg-icons';
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
+import AutoImport from 'unplugin-auto-import/vite'
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -13,7 +14,11 @@ export default defineConfig({
       iconDirs: [path.resolve(process.cwd(), 'src/icons/svg')],
       // 指定symbolId格式
       symbolId: 'icon-[dir]-[name]',
-  })
+    }),
+    AutoImport({
+      imports: ["vue", "vue-router"],
+      dts: 'src/auto-import.d.ts'    // 路径下自动生成文件夹存放全局指令
+    }),
   ],
   resolve: {
     alias: {
@@ -21,6 +26,7 @@ export default defineConfig({
     }
   },
   server: {
+    port: 8100,
     proxy: {
       '/api': { //匹配请求路径
         target: "http://127.0.0.1:8899/",//代理的目标地址
@@ -31,7 +37,7 @@ export default defineConfig({
 
         // 路径重写，**** 如果你的后端有统一前缀(如:/api)，就不开启；没有就开启
         //简单来说，就是是否改路径 加某些东西
-        rewrite:(path) => path.replace(/^\/api/, '')
+        rewrite: (path) => path.replace(/^\/api/, '')
       }
     }
   }

@@ -69,8 +69,8 @@ export const asyncRoutes: RouteRecordRaw[] = [
     redirect: "/table/element-plus",
     name: "Table",
     meta: {
-      title: "表格",
-      elIcon: "Grid",
+      title: "注册审批",
+      svgIcon: "register",
       roles: ["root", "administrator", "user"],
       alwaysShow: true // 将始终显示根菜单
 
@@ -79,9 +79,10 @@ export const asyncRoutes: RouteRecordRaw[] = [
       {
         path: "element-plus",
         component: () => import("@/views/table/index.vue"),
-        name: "ElementPlus",
+        name: "approvalManagement",
         meta: {
-          title: "信息修改",
+          title: "审批管理",
+          svgIcon: "accout",
           roles: ["root", "administrator"]
         }
       },
@@ -91,9 +92,50 @@ export const asyncRoutes: RouteRecordRaw[] = [
         name: "personalInformation",
         meta: {
           title: "常规页面",
-
+          svgIcon: "accout",
         }
       }
+    ]
+  },
+  {
+    path: "/commodity-management",
+    component: Layout,
+    redirect: "/commodity-management/commodity-warehouse",
+    name: "commodityManagement",
+    meta: {
+      title: "商品管理",
+      svgIcon: "commodity",
+      roles: ["root", "administrator", "user"],
+      alwaysShow: true // 将始终显示根菜单
+    },
+    children:[
+      {
+        path: "/commodity-management/commodity-warehouse",
+        component: () => import("@/views/commodity-management/commodity-warehouse/index.vue"),
+        name: "commodityWarehouse",
+        meta: {
+          title: "商品库",
+          svgIcon: "shopping",
+        }
+      },
+      {
+        path: "/commodity-management/commodity-push",
+        component: () => import("@/views/commodity-management/commodity-push/index.vue"),
+        name: "commodityPush",
+        meta: {
+          title: "商品推送",
+          svgIcon: "shopping",
+        }
+      },
+      {
+        path: "/commodity-management/commodity-recycle",
+        component: () => import("@/views/commodity-management/commodity-recycle/index.vue"),
+        name: "commodityRecycle",
+        meta: {
+          title: "回收站",
+          svgIcon: "shopping",
+        }
+      },
     ]
   },
   {
@@ -153,7 +195,7 @@ export function resetRouter() {
       if (name && meta.roles?.length) { //
         // router.hasRoute  检查给定名称的路由是否存在
         // router.removeRoute 根据路由名删除现有路由。
-        console.log("需要删除的路由有",route,router.hasRoute(name))
+        console.log("需要删除的路由有", route, router.hasRoute(name))
         router.hasRoute(name) && router.removeRoute(name)
       }
     })
