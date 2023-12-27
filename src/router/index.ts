@@ -105,6 +105,95 @@ export const asyncRoutes: RouteRecordRaw[] = [
     ]
   },
   {
+    path: "/account-management",
+    component: Layout,
+    redirect: "/account-management/account",
+    name: "AccountManagement",
+    meta: {
+      title: "商户管理",
+      svgIcon: "account-management",
+      roles: ["root", "administrator", "user"],
+      alwaysShow: true // 将始终显示根菜单
+
+    },
+    children: [
+      {
+        path: "/account-management/account",
+        component: () => import("@/views/account-management/index.vue"),
+        name: "Account",
+        meta: {
+          title: "商户",
+          svgIcon: "accout",
+        }
+      },
+    ]
+  },
+  {
+    path: "/user-management",
+    component: Layout,
+    name: "UserManagement",
+    meta: {
+      title: "用户管理",
+      svgIcon: "user",
+      roles: ["root", "administrator", "user"],
+      alwaysShow: true // 将始终显示根菜单
+    },
+    children: [
+      {
+        path: "/user-management/list",
+        component: () => import("@/views/user-management/index.vue"),
+        name: "list",
+        meta: {
+          title: "用户",
+          svgIcon: "accout",
+        }
+      },
+    ]
+  },  {
+    path: "/order-management",
+    component: Layout,
+    name: "OrderManagement",
+    meta: {
+      title: "订单管理",
+      svgIcon: "order",
+      roles: ["root", "administrator", "user"],
+      alwaysShow: true // 将始终显示根菜单
+    },
+    children: [
+      {
+        path: "/order-management/list",
+        component: () => import("@/views/order-management/index.vue"),
+        name: "OrderManagementList",
+        meta: {
+          title: "订单",
+          svgIcon: "accout",
+        }
+      },
+    ]
+  },
+  {
+    path: "/message-management",
+    component: Layout,
+    name: "MessageManagement",
+    meta: {
+      title: "留言管理",
+      svgIcon: "message",
+      roles: ["root", "administrator", "user"],
+      alwaysShow: true // 将始终显示根菜单
+    },
+    children: [
+      {
+        path: "/message-management/list",
+        component: () => import("@/views/message-management/index.vue"),
+        name: "MessageManagementList",
+        meta: {
+          title: "留言",
+          svgIcon: "accout",
+        }
+      },
+    ]
+  },
+  {
     path: "/commodity-management",
     component: Layout,
     redirect: "/commodity-management/commodity-warehouse",
