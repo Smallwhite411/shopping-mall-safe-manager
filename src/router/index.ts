@@ -74,56 +74,41 @@ export const asyncRoutes: RouteRecordRaw[] = [
     path: "/table",
     component: Layout,
     redirect: "/table/element-plus",
-    name: "Table",
-    meta: {
-      title: "注册审批",
-      svgIcon: "register",
-      roles: ["root", "administrator", "user"],
-      alwaysShow: true // 将始终显示根菜单
-
-    },
     children: [
       {
-        path: "element-plus",
+        path: "/table/element-plus",
         component: () => import("@/views/table/index.vue"),
         name: "approvalManagement",
         meta: {
-          title: "审批管理",
-          svgIcon: "accout",
-          roles: ["root", "administrator"]
+          title: "注册审批",
+          svgIcon: "register",
+          roles: ["root", "administrator","user"]
         }
       },
-      {
-        path: "personal-information",
-        component: () => import("@/views/convention/index.vue"),
-        name: "personalInformation",
-        meta: {
-          title: "常规页面",
-          svgIcon: "accout",
-        }
-      }
+      // {
+      //   path: "personal-information",
+      //   component: () => import("@/views/convention/index.vue"),
+      //   name: "personalInformation",
+      //   meta: {
+      //     title: "常规页面",
+      //     svgIcon: "accout",
+      //   }
+      // }
     ]
   },
   {
     path: "/account-management",
     component: Layout,
     redirect: "/account-management/account",
-    name: "AccountManagement",
-    meta: {
-      title: "商户管理",
-      svgIcon: "account-management",
-      roles: ["root", "administrator", "user"],
-      alwaysShow: true // 将始终显示根菜单
-
-    },
     children: [
       {
         path: "/account-management/account",
         component: () => import("@/views/account-management/index.vue"),
-        name: "Account",
+        name: "AccountManagement",
         meta: {
-          title: "商户",
-          svgIcon: "accout",
+          title: "商户管理",
+          svgIcon: "account-management",
+          roles: ["root", "administrator", "user"],
         }
       },
     ]
@@ -131,65 +116,47 @@ export const asyncRoutes: RouteRecordRaw[] = [
   {
     path: "/user-management",
     component: Layout,
-    name: "UserManagement",
-    meta: {
-      title: "用户管理",
-      svgIcon: "user",
-      roles: ["root", "administrator", "user"],
-      alwaysShow: true // 将始终显示根菜单
-    },
     children: [
       {
         path: "/user-management/list",
         component: () => import("@/views/user-management/index.vue"),
-        name: "list",
+        name: "UserManagement",
         meta: {
-          title: "用户",
-          svgIcon: "accout",
+          title: "用户管理",
+          svgIcon: "user",
+          roles: ["root", "administrator", "user"],
         }
       },
     ]
-  },  {
+  }, {
     path: "/order-management",
     component: Layout,
-    name: "OrderManagement",
-    meta: {
-      title: "订单管理",
-      svgIcon: "order",
-      roles: ["root", "administrator", "user"],
-      alwaysShow: true // 将始终显示根菜单
-    },
     children: [
       {
         path: "/order-management/list",
         component: () => import("@/views/order-management/index.vue"),
-        name: "OrderManagementList",
+        name: "OrderManagement",
         meta: {
-          title: "订单",
-          svgIcon: "accout",
-        }
+          title: "订单管理",
+          svgIcon: "order",
+          roles: ["root", "administrator", "user"],
+        },
       },
     ]
   },
   {
     path: "/message-management",
     component: Layout,
-    name: "MessageManagement",
-    meta: {
-      title: "留言管理",
-      svgIcon: "message",
-      roles: ["root", "administrator", "user"],
-      alwaysShow: true // 将始终显示根菜单
-    },
     children: [
       {
         path: "/message-management/list",
         component: () => import("@/views/message-management/index.vue"),
-        name: "MessageManagementList",
+        name: "MessageManagement",
         meta: {
-          title: "留言",
-          svgIcon: "accout",
-        }
+          title: "留言管理",
+          svgIcon: "message",
+          roles: ["root", "administrator", "user"],
+        },
       },
     ]
   },
@@ -204,7 +171,7 @@ export const asyncRoutes: RouteRecordRaw[] = [
       roles: ["root", "administrator", "user"],
       alwaysShow: true // 将始终显示根菜单
     },
-    children:[
+    children: [
       {
         path: "/commodity-management/commodity-warehouse",
         component: () => import("@/views/commodity-management/commodity-warehouse/index.vue"),

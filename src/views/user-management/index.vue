@@ -12,53 +12,34 @@
         >
         </FilterIndex>
       </div>
-      <div
-        v-if="tableData.length !== 0"
-        class="list"
-        style="max-height: calc(100vh - 350px); overflow: auto"
-      >
-        <div class="line" v-for="(item, index) in tableData" :key="index">
-          <div class="img-flex">
-            <el-image
-              style="width: 100px; height: 100px"
-              :src="'/api/file/preview/mongoURL/' + item.commodityFileId"
-              :zoom-rate="1.2"
-              :max-scale="7"
-              :min-scale="0.2"
-              :preview-src-list="[
-                '/api/file/preview/mongoURL/' + item.commodityFileId,
-              ]"
-              :initial-index="4"
-              fit="cover"
+      <div class="list">
+        <BaseTable
+          ref="alltable"
+          :page-list="[200, 500, 1000, 2000]"
+          :search-params="condition"
+          :table-data="tableData"
+          :table-columns="tableColumn"
+          max-height="calc(100vh - 350px)"
+          @sort-change="sortTable"
+          @getData="initTable"
+          border
+        >
+          <template #operate>
+            <el-table-column
+              label="操作"
+              width="200"
+              align="right"
+              fixed="right"
+              class="operate"
             >
-              <template #error>
-                <div class="image-slot">
-                  <img src="@/assets/commodity/暂无.png" alt="暂无" />
-                </div>
+              <template #default="{ row }">
+                <span class="update">编辑</span>
+                <span class="delete">删除</span>
               </template>
-            </el-image>
-          </div>
-          <div style="width: calc(100% - 120px)">
-            <div class="commodity-name">
-              <p>{{ item.commodityName }}</p>
-              <div @click="pushOperation(item)">推送</div>
-            </div>
-            <div class="text-flex">{{ item.commodityDes }}</div>
-            <div class="poush-label">
-              已推送标签：
-              <el-tag
-                class="mx-1"
-                v-for="label in item.labelList"
-                :key="label"
-                style="margin: 5px 0; margin-right: 10px"
-                >{{ label }}</el-tag
-              >
-            </div>
-            <div>推送时间：{{ item.pushTime }}</div>
-          </div>
-        </div>
+            </el-table-column>
+          </template>
+        </BaseTable>
       </div>
-      <div v-else class="no-data">暂无数据</div>
     </div>
   </div>
 </template>
@@ -66,7 +47,7 @@
 <script lang="ts" setup>
 import HeaderTitle from "@/components/HeadTitle/index.vue";
 import FilterIndex from "@/components/FilterIndex/index.vue";
-
+import BaseTable from "@/components/BaseTable/index.vue";
 const headTitleInfo = ref([{ path: null, title: "用户管理" }]);
 const filterOptionList = ref([]);
 const tableData = ref<Array<any>>([]);
@@ -83,9 +64,50 @@ const condition: any = ref({
   sortField: {},
   total: 0,
 });
+const tableColumn = ref([
+  {
+    prop: "id",
+    sortable: "custom",
+    label: "用户ID",
+    width: "150px",
+  },
+  {
+    prop: "email",
+    sortable: "custom",
+    label: "邮箱",
+  },
+  {
+    prop: "userName",
+    sortable: "custom",
+    label: "用户昵称",
+  },
+  {
+    prop: "gender",
+    sortable: "custom",
+    label: "性别",
+  },
+  {
+    prop: "recipients",
+    sortable: "custom",
+    label: "收件人",
+  },
+  {
+    prop: "shippingAddress",
+    sortable: "custom",
+    label: "收货地址",
+  },
+  {
+    prop: "phone",
+    sortable: "custom",
+    label: "联系电话",
+  },
+  { slot: "operate" }, //自定义插槽
+]);
 const resetFilter = () => {};
 const updateTable = () => {};
 const pushOperation = (item: any) => {};
+const sortTable = () => {};
+const initTable = () => {};
 </script>
 <style lang="scss" scoped>
 .el-pagination {
