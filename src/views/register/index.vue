@@ -1,6 +1,6 @@
 <template>
   <div class="register-container">
-    <p class="title">中小型网上商城商户注册信息填写</p>
+    <p class="title">中小型网上商城店铺注册信息填写</p>
     <p class="desc">
       您好！感谢您注册成为中小型网上商城的商户，请您先完成信息编辑，大约花费您1～2分钟填写。
     </p>
@@ -12,67 +12,45 @@
       class="register-form"
       status-icon
     >
-      <p class="desc">企业信息:</p>
-      <el-form-item label="1.公司名称" prop="enterpriseName">
+      <p class="desc">店铺信息:</p>
+      <el-form-item label="1.店铺名称" prop="shopName">
         <el-input
-          v-model.trim="registerForm.enterpriseName"
+          v-model.trim="registerForm.shopName"
           maxlength="50"
-          placeholder="请输入公司名称"
+          placeholder="请输入店铺名称"
         />
       </el-form-item>
 
-      <el-form-item label="2.企业性质：" prop="enterpriseNature">
-        <el-select
-          v-model="registerForm.enterpriseNature"
-          class="m-2"
-          placeholder="请选择企业性质"
-          size="large"
-        >
-          <el-option
-            v-for="item in natureList"
-            :key="item.key"
-            :label="item.value"
-            :value="item.key"
-          />
-        </el-select>
-      </el-form-item>
-      <p class="desc">用户信息:</p>
-      <el-form-item label="3.姓名：" prop="username">
+      <el-form-item label="2.店铺所在地：" prop="shopLocation">
         <el-input
-          v-model.trim="registerForm.username"
+          v-model.trim="registerForm.shopLocation"
           maxlength="50"
-          placeholder="请输入姓名"
+          placeholder="请输入店铺所在地"
         />
       </el-form-item>
-      <el-form-item
-        label="4.联系邮箱 (注：  '联系邮箱' 或 '手机号' 至少填写一个)"
-        prop="email"
-        class="email"
-      >
+      <el-form-item label="3.证照信息：" prop="licenseInformation">
+        <el-input
+          v-model.trim="registerForm.licenseInformation"
+          maxlength="50"
+          placeholder="请上传证照信息"
+        />
+      </el-form-item>
+      <el-form-item label="4.店铺简介：" prop="shopSynopsis">
+        <el-input
+          v-model.trim="registerForm.shopSynopsis"
+          maxlength="50"
+          placeholder="请输入店铺简介"
+        />
+      </el-form-item>
+      <el-form-item label="5.联系邮箱：" prop="email" class="email">
         <el-input
           v-model.trim="registerForm.email"
           maxlength="50"
           placeholder="请输入联系邮箱"
         >
-          <template #append>
-            <span
-              v-if="codeNum === 0"
-              class="send"
-              v-throttle="{ event: 'click', fn: sendCode, delay: 500 }"
-              >发送验证码</span
-            >
-            <span v-else class="cutdown">{{ codeNum }}s</span>
-          </template>
         </el-input>
       </el-form-item>
-      <el-form-item label="" prop="emailCode" class="emailCode">
-        <el-input
-          v-model.trim="registerForm.emailCode"
-          placeholder="请输入发送至邮箱的验证码"
-          maxlength="50"
-        />
-      </el-form-item>
-      <el-form-item label="5.手机号：" prop="phone">
+      <el-form-item label="6.手机号：" prop="phone">
         <el-input
           v-model.trim="registerForm.phone"
           placeholder="请输入手机号(11位手机号)"
@@ -84,12 +62,6 @@
       <el-button v-throttle="{ event: 'click', fn: submit, delay: 500 }"
         >注册</el-button
       >
-      <!-- <div class="progress">
-          <p class="desc">{{ registerProgress }}/9信息填写</p>
-          <span class="out"
-            ><span class="inner" :style="{ width: (registerProgress / 9) * 100 + '%' }"></span
-          ></span>
-        </div> -->
     </div>
   </div>
 </template>
@@ -101,11 +73,11 @@ import { useUserStore } from "@/store/modules/user";
 const useStore = useUserStore();
 
 const registerForm = ref({
-  enterpriseName: "",
+  shopName: "",
+  shopLocation: "",
+  licenseInformation: "",
+  shopSynopsis: "",
   email: "",
-  emailCode: "",
-  enterpriseNature: "",
-  username: "",
   phone: "",
 });
 const validateEmail = (rule: any, value: any, callback: any) => {
@@ -125,24 +97,23 @@ const validatePhone = (rule: any, value: any, callback: any) => {
   }
 };
 const rules = reactive<FormRules<any>>({
-  enterpriseName: [
-    { required: true, trigger: "blur", message: "请输入公司名称" },
+  shopName: [
+    { required: true, trigger: "blur", message: "请输入店铺名称" },
   ],
+  shopLocation: [
+    { required: true, trigger: "change", message: "请输入店铺所在地" },
+  ],
+  shopSynopsis: [{ required: true, trigger: "blur", message: "请输入店铺简介" }],
   email: [
-    { required: false, trigger: "blur", message: "请输入联系邮箱" },
+    { required: true, trigger: "blur", message: "请输入联系邮箱" },
     {
       validator: validateEmail,
       trigger: "blur",
       message: "请输入正确格式的邮箱",
     },
   ],
-  // emailCode: [{ required: true, trigger: 'blur', message: '请输入联系邮箱验证码' }],
-  enterpriseNature: [
-    { required: true, trigger: "change", message: "请选择企业性质" },
-  ],
-  username: [{ required: true, trigger: "blur", message: "请输入姓名" }],
   phone: [
-    { required: false, trigger: "blur", message: "请输入" },
+    { required: true, trigger: "blur", message: "请输入" },
     {
       validator: validatePhone,
       trigger: "blur",
@@ -163,7 +134,9 @@ const { calcodeNum, codeNum, clearCodeNum } = clearCodeFn(60);
 const sendCode = async () => {};
 
 const router = useRouter();
-const submit = async () => {};
+const submit = async () => {
+  console.log(registerForm.value);
+};
 onUnmounted(() => {
   clearCodeNum();
 });

@@ -1,4 +1,4 @@
-import { createApp } from 'vue'
+import { Directive, createApp } from 'vue'
 import App from './App.vue'
 import store from './store'
 import ElementPlus from 'element-plus'
@@ -10,6 +10,7 @@ import "element-plus/dist/index.css"
 import "@/styles/index.scss"
 // main.ts
 import 'virtual:svg-icons-register';
+import * as directives from '@/directives'
 
 const app = createApp(App)
 app.use(store)
@@ -19,6 +20,12 @@ for (const [key, component] of Object.entries(ElementPlusIconsVue)) { //注册�
   app.component(key, component)
 }
 app.component("SvgIcon", SvgIcon)
+
+// 导入自定义指令
+Object.keys(directives).forEach((key) => {
+  app.directive(key, (directives as { [key: string]: Directive })[key]);
+});
+
 
 
 router.isReady().then(() => {
