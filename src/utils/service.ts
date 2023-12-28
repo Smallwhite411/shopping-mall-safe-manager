@@ -27,7 +27,7 @@ function createService() {
         return Promise.reject(new Error("非本系统的接口"))
       } else {
         switch (code) {
-          case 0:
+          case 200:
             // code === 0 代表没有错误
             return apiData
           default:

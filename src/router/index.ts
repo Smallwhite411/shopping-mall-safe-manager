@@ -78,11 +78,11 @@ export const asyncRoutes: RouteRecordRaw[] = [
       {
         path: "/table/element-plus",
         component: () => import("@/views/table/index.vue"),
-        name: "approvalManagement",
+        name: "Table",
         meta: {
-          title: "注册审批",
+          title: "常规页面",
           svgIcon: "register",
-          roles: ["root", "administrator","user"]
+          roles: ["root", "administrator", "user"]
         }
       },
       // {
@@ -94,6 +94,23 @@ export const asyncRoutes: RouteRecordRaw[] = [
       //     svgIcon: "accout",
       //   }
       // }
+    ]
+  },
+  {
+    path: "/registration-approval",
+    component: Layout,
+    redirect: "/registration-approval/list",
+    children: [
+      {
+        path: "/registration-approval/list",
+        component: () => import("@/views/registration-approval/index.vue"),
+        name: "approvalManagement",
+        meta: {
+          title: "注册审批",
+          svgIcon: "register",
+          roles: ["root", "administrator", "user"]
+        }
+      },
     ]
   },
   {

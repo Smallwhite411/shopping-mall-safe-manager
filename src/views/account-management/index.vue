@@ -27,14 +27,16 @@
           <template #operate>
             <el-table-column
               label="操作"
-              width="200"
+              width="150"
               align="right"
               fixed="right"
               class="operate"
             >
               <template #default="{ row }">
-                <span class="update">编辑</span>
-                <span class="delete">删除</span>
+                <span v-if="!row.isAdmin">
+                  <span class="update">编辑</span>
+                  <span class="delete">删除</span>
+                </span>
               </template>
             </el-table-column>
           </template>
@@ -50,7 +52,28 @@ import FilterIndex from "@/components/FilterIndex/index.vue";
 import BaseTable from "@/components/BaseTable/index.vue";
 const headTitleInfo = ref([{ path: null, title: "商户" }]);
 const filterOptionList = ref([]);
-const tableData = ref<Array<any>>([]);
+const tableData = ref<Array<any>>([
+  {
+    accountNumber: "001",
+    shopName: "铜仁娃娃店",
+    chargePerson: "张三",
+    shippingAddress: "上海闵行",
+    phone: "13812345678",
+    email: "zhangsan@example.com",
+    isAdmin: true,
+    password: "123456",
+  },
+  {
+    accountNumber: "002",
+    shopName: "铜仁娃娃店2",
+    chargePerson: "张三",
+    shippingAddress: "上海闵行",
+    phone: "13812345678",
+    email: "zhangsan@example.com",
+    isAdmin: false,
+    password: "123456",
+  },
+]);
 const condition: any = ref({
   filterContent: [
     {
@@ -71,36 +94,32 @@ const sortTable = () => {};
 const initTable = () => {};
 const tableColumn = ref([
   {
-    prop: "id",
+    prop: "accountNumber",
     sortable: "custom",
-    label: "用户ID",
+    label: "商户账号",
     width: "150px",
+  },
+  {
+    prop: "shopName",
+    sortable: "custom",
+    label: "店铺昵称",
+  },
+  {
+    prop: "chargePerson",
+    sortable: "custom",
+    label: "责任人",
+  },
+  {
+    prop: "shippingAddress",
+    sortable: "custom",
+    label: "店铺所在地",
   },
   {
     prop: "email",
     sortable: "custom",
     label: "邮箱",
   },
-  {
-    prop: "userName",
-    sortable: "custom",
-    label: "用户昵称",
-  },
-  {
-    prop: "gender",
-    sortable: "custom",
-    label: "性别",
-  },
-  {
-    prop: "recipients",
-    sortable: "custom",
-    label: "收件人",
-  },
-  {
-    prop: "shippingAddress",
-    sortable: "custom",
-    label: "收货地址",
-  },
+
   {
     prop: "phone",
     sortable: "custom",
@@ -166,4 +185,27 @@ const tableColumn = ref([
     margin-bottom: 10px;
   }
 }
+
+:deep(.el-table) {
+    td {
+      .cell {
+        .el-tag {
+          max-width: 100%;
+          height: auto;
+          white-space: break-spaces;
+          justify-content: flex-start;
+          line-height: 18px;
+        }
+      }
+    }
+    td:last-child {
+      .cell {
+        text-align: center;
+        span {
+          display: inline-block;
+          margin-left: 20px;
+        }
+      }
+    }
+  }
 </style>

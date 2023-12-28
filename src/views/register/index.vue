@@ -20,7 +20,13 @@
           placeholder="请输入店铺名称"
         />
       </el-form-item>
-
+      <el-form-item label="1.责任人" prop="chargePerson">
+        <el-input
+          v-model.trim="registerForm.chargePerson"
+          maxlength="50"
+          placeholder="请输入店铺名称"
+        />
+      </el-form-item>
       <el-form-item label="2.店铺所在地：" prop="shopLocation">
         <el-input
           v-model.trim="registerForm.shopLocation"
@@ -67,13 +73,15 @@
 </template>
 
 <script lang="ts" setup>
-import type { FormRules } from "element-plus";
+import { ElMessage, type FormRules } from "element-plus";
 import { validateValue, clearCodeFn } from "@/utils/validate";
 import { useUserStore } from "@/store/modules/user";
+import { registerAccout } from "@/api/register";
 const useStore = useUserStore();
 
 const registerForm = ref({
   shopName: "",
+  chargePerson: "",
   shopLocation: "",
   licenseInformation: "",
   shopSynopsis: "",
@@ -97,13 +105,13 @@ const validatePhone = (rule: any, value: any, callback: any) => {
   }
 };
 const rules = reactive<FormRules<any>>({
-  shopName: [
-    { required: true, trigger: "blur", message: "请输入店铺名称" },
-  ],
+  shopName: [{ required: true, trigger: "blur", message: "请输入店铺名称" }],
   shopLocation: [
     { required: true, trigger: "change", message: "请输入店铺所在地" },
   ],
-  shopSynopsis: [{ required: true, trigger: "blur", message: "请输入店铺简介" }],
+  shopSynopsis: [
+    { required: true, trigger: "blur", message: "请输入店铺简介" },
+  ],
   email: [
     { required: true, trigger: "blur", message: "请输入联系邮箱" },
     {
@@ -136,6 +144,23 @@ const sendCode = async () => {};
 const router = useRouter();
 const submit = async () => {
   console.log(registerForm.value);
+  await registerFormRef.value.validate((valid: any) => {
+    if (valid) {
+      registerAccout(registerForm.value).then((res) => {
+        // const registerInfo = {
+        //   enterpriseName: registerForm.value.enterpriseName,
+        //   loginAddress: res.data?.loginAddress,
+        //   merchantAccount: res.data?.merchantAccount,
+        //   initPassword: res.data?.initPassword,
+        // };
+        // useStore.setRecordUserInfo(registerInfo);
+        clearCodeNum();
+        // router.push({
+        //   path: "/register/success",
+        // });
+      });
+    }
+  });
 };
 onUnmounted(() => {
   clearCodeNum();
