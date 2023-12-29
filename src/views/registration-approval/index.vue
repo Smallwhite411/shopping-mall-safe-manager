@@ -44,9 +44,6 @@
               </div>
             </div>
             <div class="corporate-information">
-              <div class="text-flex">
-                公司性质：{{ item.enterpriseNatureCn }}
-              </div>
               <div class="text-flex">公司法人：{{ item.shopName }}</div>
               <div class="text-flex">公司法人电话：{{ item.phone }}</div>
               <div class="text-flex">公司邮箱：{{ item.email }}</div>
@@ -89,9 +86,6 @@
               </div>
             </div>
             <div class="corporate-information">
-              <div class="text-flex">
-                公司性质：{{ item.enterpriseNatureCn }}
-              </div>
               <div class="text-flex">公司法人：{{ item.shopName }}</div>
               <div class="text-flex">公司法人电话：{{ item.phone }}</div>
               <div class="text-flex">公司邮箱：{{ item.email }}</div>

@@ -66,10 +66,35 @@
 <script lang="ts" setup>
 import HeaderTitle from "@/components/HeadTitle/index.vue";
 import FilterIndex from "@/components/FilterIndex/index.vue";
-
+import { ElImage } from "element-plus";
 const headTitleInfo = ref([{ path: null, title: "商品推送" }]);
 const filterOptionList = ref([]);
-const tableData = ref<Array<any>>([]);
+const tableData = ref<Array<any>>([
+  {
+    labelList: [
+      "amet",
+      "exercitation dolore Excepteur",
+      "aliqua dolor dolore",
+      "aute in",
+      "pariatur consectetur exercitation",
+    ],
+    commodityCode: "75",
+    pushTime: "1981-12-29 08:17:12",
+    commodityName: "号包集再",
+    commodityDes: "est",
+    commodityFileId: "18",
+    commodityFileName: "因元条",
+  },
+  {
+    labelList: ["sed id sit consectetur"],
+    commodityCode: "98",
+    pushTime: "2004-09-27 11:15:17",
+    commodityName: "真名习三却",
+    commodityDes: "aliquip cupidatat dolore ut velit",
+    commodityFileId: "34",
+    commodityFileName: "需细队等军",
+  },
+]);
 const condition: any = ref({
   filterContent: [
     {
