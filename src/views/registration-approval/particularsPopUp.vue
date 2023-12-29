@@ -46,6 +46,9 @@
   </div>
 </template>
 <script lang="ts" setup>
+import { updateManagementStatus } from '@/api/registration-approval';
+import { ElMessage } from 'element-plus';
+
 const props = defineProps({
   approval: {
     type: Object,
@@ -70,22 +73,24 @@ const cancel = () => {
 };
 const confirm = async () => {
   await userFormRef.value.validate((valid: any) => {
-    // if (valid) {
-    //   updateApprovalStatus({
-    //     approvalCode: props.approval.approvalCode,
-    //     type: "REFUSE",
-    //     refuseReason: userForm.value.refuse,
-    //   }).then(() => {
-    //     emit("confirm");
-    //     ElMessage.success("操作成功");
-    //     cancel();
-    //   });
-    // }
+    if (valid) {
+      updateManagementStatus({
+        approvalCode: props.approval.approvalCode,
+        type: "Refuse",
+        refuseReason: userForm.value.refuse,
+      }).then(() => {
+        emit("confirm");
+        ElMessage.success("操作成功");
+        cancel();
+      });
+    }
   });
 };
 
 onMounted(() => {
   if (props.isApprover) {
+    console.log(props.isApprover,props.approval);
+    
     refuseReason.value = props.approval.refuseReason;
   }
 });

@@ -24,3 +24,15 @@ export interface filterContentType {
     conditiondID: string
     valueData: string | Array<string>
 }
+
+
+export interface updateReq {
+    approvalCode: string,
+    type: string,
+    refuseReason: string,
+}
+
+export interface totalRes {
+    untreated: number,
+    processed: number
+}

@@ -48,9 +48,7 @@
                 公司性质：{{ item.enterpriseNatureCn }}
               </div>
               <div class="text-flex">公司法人：{{ item.shopName }}</div>
-              <div class="text-flex">
-                公司法人电话：{{ item.phone }}
-              </div>
+              <div class="text-flex">公司法人电话：{{ item.phone }}</div>
               <div class="text-flex">公司邮箱：{{ item.email }}</div>
             </div>
             <div>地址：{{ item.shopLocation }}</div>
@@ -59,14 +57,14 @@
             v-else
             :class="
               `descriptions` +
-              ` ${item.isPass === 'PASS' ? 'pass-style' : 'warning-style'}`
+              ` ${item.type === 'Pass' ? 'pass-style' : 'warning-style'}`
             "
           >
             <div class="company-name">
               <div>{{ item.enterpriseName }}</div>
               <div class="filter-operate">
                 <el-button
-                  v-if="item.isPass === 'PASS'"
+                  v-if="item.type === 'Pass'"
                   style="
                     border: 1px solid #149800;
                     color: #149800;
@@ -95,9 +93,7 @@
                 公司性质：{{ item.enterpriseNatureCn }}
               </div>
               <div class="text-flex">公司法人：{{ item.shopName }}</div>
-              <div class="text-flex">
-                公司法人电话：{{ item.phone }}
-              </div>
+              <div class="text-flex">公司法人电话：{{ item.phone }}</div>
               <div class="text-flex">公司邮箱：{{ item.email }}</div>
             </div>
             <div>地址：{{ item.shopLocation }}</div>
@@ -115,8 +111,13 @@
   </div>
 </template>
 <script lang="ts" setup>
-import { getRegisterAccount } from "@/api/registration-approval";
+import {
+  getRegisterAccount,
+  getTotal,
+  updateManagementStatus,
+} from "@/api/registration-approval";
 import particularsPopUp from "./particularsPopUp.vue";
+import { ElMessage } from "element-plus";
 const activeIndex = ref("undisposed");
 const approval = ref({});
 const showPopUp = ref(false);
@@ -149,9 +150,9 @@ const tableData: any = ref([]);
 const filterOptionList = ref([]);
 const headTitleInfo = ref([{ path: null, title: "商户入网审批" }]);
 const getTotalNumber = async () => {
-  // const res = await getTotal();
-  // processed.value = res.data!.processed;
-  // undisposed.value = res.data!.untreated;
+  const res = await getTotal();
+  processed.value = res.data!.processed;
+  undisposed.value = res.data!.untreated;
 };
 const initData = async () => {
   initTable();
@@ -164,7 +165,7 @@ const initTable = async () => {
   const tableCondition = JSON.parse(JSON.stringify(condition.value));
   delete tableCondition.total;
   const res = await getRegisterAccount(tableCondition);
-console.log('getRegisterAccount',res.data);
+  console.log("getRegisterAccount", res.data);
 
   if (res.code === 200 && res.data) {
     condition.value.total = res.data.total;
@@ -200,14 +201,16 @@ const refuseReason = (row: any) => {
   approval.value = row;
 };
 const approvePass = (row: any) => {
-  // updateApprovalStatus({
-  //   approvalCode: row.approvalCode,
-  //   type: "PASS",
-  //   refuseReason: "",
-  // }).then(() => {
-  //   ElMessage.success("通过");
-  //   initTable();
-  // });
+  console.log(row);
+
+  updateManagementStatus({
+    approvalCode: row.approvalCode,
+    type: "Pass",
+    refuseReason: "",
+  }).then(() => {
+    ElMessage.success("通过");
+    initTable();
+  });
 };
 
 onMounted(() => {
