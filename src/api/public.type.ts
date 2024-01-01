@@ -18,3 +18,10 @@ export interface pagelistRes<T> {
     records: Array<T>
     total: number
 }
+
+export interface getImgReq {
+    id: string
+}
+export interface getImgRes {
+    file: string
+}

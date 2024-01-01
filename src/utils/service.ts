@@ -99,7 +99,6 @@ function createRequestFunction(service: AxiosInstance) {
       baseURL: '/api',
       data: {}
     }
-    console.log("configDefault", configDefault, config)
     return service(Object.assign(configDefault, config))
   }
 }

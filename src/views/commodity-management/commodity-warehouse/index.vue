@@ -21,12 +21,12 @@
           <div class="img-flex">
             <el-image
               style="width: 100px; height: 100px"
-              :src="'/api/file/preview/mongoURL/' + item.commodityFileId"
+              src="http://101.133.135.200:8111/Picture/%E5%9C%B0%E7%90%83%E6%AD%A3%E9%9D%A2%E5%9B%BE.jpeg"
               :zoom-rate="1.2"
               :max-scale="7"
               :min-scale="0.2"
               :preview-src-list="[
-                '/api/file/preview/mongoURL/' + item.commodityFileId,
+                'http://101.133.135.200:8111/Picture/%E5%9C%B0%E7%90%83%E6%AD%A3%E9%9D%A2%E5%9B%BE.jpeg',
               ]"
               :initial-index="4"
               fit="cover"

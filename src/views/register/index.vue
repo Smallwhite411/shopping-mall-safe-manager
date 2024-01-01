@@ -20,27 +20,27 @@
           placeholder="请输入店铺名称"
         />
       </el-form-item>
-      <el-form-item label="1.责任人" prop="chargePerson">
+      <el-form-item label="2.责任人" prop="chargePerson">
         <el-input
           v-model.trim="registerForm.chargePerson"
           maxlength="50"
           placeholder="请输入店铺名称"
         />
       </el-form-item>
-      <el-form-item label="2.店铺所在地：" prop="shopLocation">
+      <el-form-item label="3.店铺所在地：" prop="shopLocation">
         <el-input
           v-model.trim="registerForm.shopLocation"
           maxlength="50"
           placeholder="请输入店铺所在地"
         />
       </el-form-item>
-      <el-form-item label="3.证照信息：" prop="licenseInformation">
+      <!-- <el-form-item label="3.证照信息：" prop="licenseInformation">
         <el-input
           v-model.trim="registerForm.licenseInformation"
           maxlength="50"
           placeholder="请上传证照信息"
         />
-      </el-form-item>
+      </el-form-item> -->
       <el-form-item label="4.店铺简介：" prop="shopSynopsis">
         <el-input
           v-model.trim="registerForm.shopSynopsis"
@@ -64,6 +64,18 @@
         />
       </el-form-item>
     </el-form>
+    <p class="title2 title1">
+      <span class="error" style="display: inline-block; margin-right: 2px"
+        >*</span
+      >7.证照信息：
+    </p>
+    <div :class="{ noBusiness: noBusiness }" style="border-radius: 8px">
+      <UploadImg
+        :imgList="registerForm.businessLicense"
+        fileType=".png, .jpg, .jpeg"
+        @updateFile="getFile"
+      />
+    </div>
     <div class="register-bottom">
       <el-button v-throttle="{ event: 'click', fn: submit, delay: 500 }"
         >注册</el-button
@@ -76,9 +88,14 @@
 import { ElMessage, type FormRules } from "element-plus";
 import { validateValue, clearCodeFn } from "@/utils/validate";
 import { useUserStore } from "@/store/modules/user";
+import type { UploadInstance, UploadProps, UploadRawFile } from "element-plus";
 import { registerAccout } from "@/api/register";
+import { genFileId } from "element-plus";
+import UploadImg from "@/components/UploadImg/index.vue";
 const useStore = useUserStore();
-
+const fileType = ["image/png", "image/jpeg", "image/jpg"];
+const fileList: any = ref([]);
+const noBusiness = ref(false);
 const registerForm = ref({
   shopName: "",
   chargePerson: "",
@@ -87,7 +104,12 @@ const registerForm = ref({
   shopSynopsis: "",
   email: "",
   phone: "",
+  fileName: null,
+  businessLicense: [{ url: null, uid: null }],
 });
+const dialogVisible = ref(false);
+const dialogImageUrl = ref("");
+const uploadRef = ref<UploadInstance>();
 const validateEmail = (rule: any, value: any, callback: any) => {
   if (value !== "") {
     const regex = /^[a-zA-Z0-9_]+@[a-zA-Z0-9]+\.[a-zA-Z0-9]+$/;
@@ -106,6 +128,7 @@ const validatePhone = (rule: any, value: any, callback: any) => {
 };
 const rules = reactive<FormRules<any>>({
   shopName: [{ required: true, trigger: "blur", message: "请输入店铺名称" }],
+  chargePerson: [{ required: true, trigger: "blur", message: "请输入责任人" }],
   shopLocation: [
     { required: true, trigger: "change", message: "请输入店铺所在地" },
   ],
@@ -129,6 +152,19 @@ const rules = reactive<FormRules<any>>({
     },
   ],
 });
+const getFile = (data: any) => {
+  console.log('kashbgfasb',data);
+  
+  if (data.length > 0) {
+    registerForm.value.businessLicense = data;
+    registerForm.value.fileName = data[0].fileName;
+  } else {
+    registerForm.value.businessLicense = [{ url: null, uid: null }];
+    registerForm.value.fileName = null;
+  }
+
+  noBusiness.value = registerForm.value.businessLicense[0].uid === null;
+};
 // 公司性质
 const natureList = ref();
 const getNature = async () => {};
@@ -138,12 +174,10 @@ onMounted(() => {
 
 const registerFormRef = ref();
 const { calcodeNum, codeNum, clearCodeNum } = clearCodeFn(60);
-// 发送验证码
-const sendCode = async () => {};
 
 const router = useRouter();
 const submit = async () => {
-  console.log(registerForm.value);
+  console.log("我已经提交了");
   await registerFormRef.value.validate((valid: any) => {
     if (valid) {
       registerAccout(registerForm.value).then((res) => {
@@ -221,6 +255,16 @@ onUnmounted(() => {
         }
       }
     }
+  }
+  .title2 {
+    font-size: 16px;
+    font-weight: 600;
+    color: #333333;
+  }
+  .title1 {
+    font-weight: 500;
+    margin-top: 18px;
+    margin-bottom: 20px;
   }
   .register-bottom {
     width: calc(100% + 160px);
