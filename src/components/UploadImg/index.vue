@@ -68,7 +68,6 @@
 
 <script lang="ts" setup>
 import { Delete, ZoomIn } from "@element-plus/icons-vue";
-// import { uploadFile, getImg } from "@/api/public";
 import { downScanning } from "@/utils/downFile";
 import { ElMessage, genFileId } from "element-plus";
 import type {
@@ -135,6 +134,8 @@ const handleChange = async (file: any) => {
     fd.append("id", fileObj.uid);
     uploadFile(fd).then((res) => {
       fileList.value = [{ url: file.url, uid: res.data, fileName: file.name }];
+      console.log("aksfgvbkasb", res.data, file.url, file.raw);
+
       emit("updateFile", fileList.value);
     });
   } else {
