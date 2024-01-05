@@ -1,7 +1,12 @@
 import { request } from "@/utils/service"
 import { pagelistReq, pagelistRes } from "../public.type"
 import { delteleAccountReq, recordsType } from "./index.type"
-// 商户用户列表
+/**
+ * 
+ * @function accountPage 商户用户列表
+ * @function delteleAccount 删除用户 
+ */
+// 
 
 export const accountPage: AxiosResponseI<pagelistReq, pagelistRes<recordsType>> = (data) => {
     return request({
