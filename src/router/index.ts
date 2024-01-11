@@ -40,6 +40,13 @@ export const constantRoutes: RouteRecordRaw[] = [
     }
   },
   {
+    path: "/register/success",
+    component: () => import("@/views/register/registerSuccess.vue"),
+    meta: {
+      hidden: true
+    }
+  },
+  {
     path: "/login",
     component: () => import("@/views/login/index.vue"),
     meta: {

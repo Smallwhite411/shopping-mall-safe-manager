@@ -1,5 +1,5 @@
 <template>
-  <div class="system-style approval-management">
+  <div class="system-style approval-management" v-loading="tableLoading">
     <head-title :headTitleInfo="headTitleInfo"></head-title>
     <div class="content">
       <el-menu
@@ -112,6 +112,7 @@ import {
 } from "@/api/registration-approval";
 import particularsPopUp from "./particularsPopUp.vue";
 import { ElMessage } from "element-plus";
+import { ElLoading } from 'element-plus'
 const activeIndex = ref("undisposed");
 const approval = ref({});
 const showPopUp = ref(false);
@@ -141,6 +142,7 @@ const handleSelect = (key: string) => {
   initTable();
 };
 const tableData: any = ref([]);
+const tableLoading = ref(false)
 const filterOptionList = ref([]);
 const headTitleInfo = ref([{ path: null, title: "商户入网审批" }]);
 const getTotalNumber = async () => {
@@ -158,7 +160,9 @@ const initTable = async () => {
   getTotalNumber();
   const tableCondition = JSON.parse(JSON.stringify(condition.value));
   delete tableCondition.total;
+  tableLoading.value = true
   const res = await getRegisterAccount(tableCondition);
+  tableLoading.value = false
   console.log("getRegisterAccount", res.data);
 
   if (res.code === 200 && res.data) {

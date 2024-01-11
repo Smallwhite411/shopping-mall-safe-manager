@@ -189,9 +189,9 @@ const submit = async () => {
         // };
         // useStore.setRecordUserInfo(registerInfo);
         clearCodeNum();
-        // router.push({
-        //   path: "/register/success",
-        // });
+        router.push({
+          path: "/register/success",
+        });
       });
     }
   });
