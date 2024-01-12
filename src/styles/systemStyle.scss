@@ -468,3 +468,7 @@ p {
     text-align: left;
   }
 }
+
+.el-dropdown-link:focus-visible {
+  outline: none;
+}

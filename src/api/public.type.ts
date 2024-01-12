@@ -25,3 +25,21 @@ export interface getImgReq {
 export interface getImgRes {
     file: string
 }
+
+export interface getTableFilterReq {
+    tableId: string
+}
+
+export type getTableFilterRes = Array<{
+    id: string
+    name: string
+    valueType: string
+    valueOption: Array<{
+        id: string
+        name: string
+    }>
+    conditionOptionsList: Array<{
+        id: string
+        name: string
+    }>
+}>

@@ -90,6 +90,9 @@ const handleHistory = () => {
 .notify {
   margin-right: 10px;
   color: var(--el-text-color-regular);
+  .el-badge .el-tooltip__trigger{
+      display: flex;
+    }
 }
 .notify-history {
   text-align: center;
