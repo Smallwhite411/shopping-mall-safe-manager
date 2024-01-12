@@ -48,6 +48,7 @@
 import HeaderTitle from "@/components/HeadTitle/index.vue";
 import FilterIndex from "@/components/FilterIndex/index.vue";
 import BaseTable from "@/components/BaseTable/index.vue";
+import { pagelist } from "@/api/user-management";
 const headTitleInfo = ref([{ path: null, title: "用户管理" }]);
 const filterOptionList = ref([]);
 const tableData = ref<Array<any>>([]);
@@ -66,7 +67,7 @@ const condition: any = ref({
 });
 const tableColumn = ref([
   {
-    prop: "id",
+    prop: "email",
     sortable: "custom",
     label: "用户ID",
     width: "150px",
@@ -77,14 +78,9 @@ const tableColumn = ref([
     label: "邮箱",
   },
   {
-    prop: "userName",
+    prop: "nickname",
     sortable: "custom",
     label: "用户昵称",
-  },
-  {
-    prop: "gender",
-    sortable: "custom",
-    label: "性别",
   },
   {
     prop: "recipients",
@@ -107,7 +103,20 @@ const resetFilter = () => {};
 const updateTable = () => {};
 const pushOperation = (item: any) => {};
 const sortTable = () => {};
-const initTable = () => {};
+const initTable = () => {
+  const tableCondition = JSON.parse(JSON.stringify(condition.value));
+  delete tableCondition.total;
+
+  pagelist(tableCondition).then((res) => {
+    if (res.code === 200 && res.data) {
+      condition.value.total = res.data.total;
+      tableData.value = res.data.records;
+    }
+  });
+};
+onMounted(() => {
+  initTable();
+});
 </script>
 <style lang="scss" scoped>
 .el-pagination {

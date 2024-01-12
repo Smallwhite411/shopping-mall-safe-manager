@@ -24,7 +24,10 @@
         >
         </FilterIndex>
       </div>
-      <div style="max-height: calc(100% - 150px); overflow: auto">
+      <div
+        style="max-height: calc(100% - 150px); overflow: auto"
+        v-if="tableData.length !== 0"
+      >
         <div v-for="item in tableData" :key="item.approvalCode">
           <div v-if="!condition.isHandle" class="descriptions">
             <div class="company-name">
@@ -94,6 +97,7 @@
           </div>
         </div>
       </div>
+      <div v-else class="no-data">No Data</div>
     </div>
     <particularsPopUp
       v-if="showPopUp"
@@ -112,7 +116,7 @@ import {
 } from "@/api/registration-approval";
 import particularsPopUp from "./particularsPopUp.vue";
 import { ElMessage } from "element-plus";
-import { ElLoading } from 'element-plus'
+import { ElLoading } from "element-plus";
 const activeIndex = ref("undisposed");
 const approval = ref({});
 const showPopUp = ref(false);
@@ -142,7 +146,7 @@ const handleSelect = (key: string) => {
   initTable();
 };
 const tableData: any = ref([]);
-const tableLoading = ref(false)
+const tableLoading = ref(false);
 const filterOptionList = ref([]);
 const headTitleInfo = ref([{ path: null, title: "商户入网审批" }]);
 const getTotalNumber = async () => {
@@ -160,10 +164,9 @@ const initTable = async () => {
   getTotalNumber();
   const tableCondition = JSON.parse(JSON.stringify(condition.value));
   delete tableCondition.total;
-  tableLoading.value = true
+  tableLoading.value = true;
   const res = await getRegisterAccount(tableCondition);
-  tableLoading.value = false
-  console.log("getRegisterAccount", res.data);
+  tableLoading.value = false;
 
   if (res.code === 200 && res.data) {
     condition.value.total = res.data.total;
@@ -233,6 +236,19 @@ onMounted(() => {
 
   .filter {
     padding: 18px 20px;
+  }
+  .no-data {
+    height: 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid #e4eaee;
+    color: #c0c9d0;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    margin-left: 15px;
+    margin-right: 15px;
+    border-radius: 5px;
   }
   .descriptions {
     background: rgba(247, 248, 250, 1);
