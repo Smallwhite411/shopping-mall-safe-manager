@@ -221,7 +221,6 @@ const tableColumn = ref([
 }
 .content {
   padding: 0;
-  height: calc(100% - 47px);
   .el-menu {
     .el-menu-item {
       padding: 0 20px;

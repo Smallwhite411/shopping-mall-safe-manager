@@ -185,6 +185,22 @@ export const asyncRoutes: RouteRecordRaw[] = [
     ]
   },
   {
+    path: "/shopping-trolley-management",
+    component: Layout,
+    children: [
+      {
+        path: "/shopping-trolley-management/list",
+        component: () => import("@/views/shopping-trolley-management/index.vue"),
+        name: "ShoppingTrolley",
+        meta: {
+          title: "购物车管理",
+          svgIcon: "message",
+          roles: ["root", "administrator", "user"],
+        },
+      },
+    ]
+  },
+  {
     path: "/commodity-management",
     component: Layout,
     redirect: "/commodity-management/commodity-warehouse",
