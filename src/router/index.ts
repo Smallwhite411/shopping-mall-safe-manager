@@ -194,7 +194,7 @@ export const asyncRoutes: RouteRecordRaw[] = [
         name: "ShoppingTrolley",
         meta: {
           title: "购物车管理",
-          svgIcon: "message",
+          svgIcon: "shoppingcar",
           roles: ["root", "administrator", "user"],
         },
       },
